@@ -229,6 +229,21 @@ local function start(...)
     options.tls.rejectUnauthorized = true
     options.tls.ca = certs.caCerts
 
+    if virgo.config['monitoring_ca_file'] then
+      local caFile = assert(io.open(virgo.config['monitoring_ca_file'], r))
+      local caPart = ''
+      for line in caFile:lines() do
+        if string.match(line, "END CERTIFICATE") then
+          caPart = caPart .. line .. "\n"
+          table.insert(options.tls.ca, caPart)
+          caPart = ''
+        else
+          caPart = caPart .. line .. "\n"
+        end
+      end
+      caFile:close()
+    end
+
     virgo.config['token'] = virgo.config['monitoring_token']
     virgo.config['endpoints'] = virgo.config['monitoring_endpoints']
     virgo.config['upgrade'] = virgo.config['monitoring_upgrade']

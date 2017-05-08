@@ -152,6 +152,8 @@ Configuration File Parameters
                                        are honored.
     monitoring_query_endpoints [queries] - (optional) SRV queries comma
                                             delimited
+    monitoring_ca_file [path]        - (optional) Additional CA certificates bundle.
+                                       Example: /etc/ssl/certs/ca-certificates.pem
 
 Exit Codes
 ==========
